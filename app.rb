@@ -11,8 +11,7 @@ Telegram::Bot::Client.run(token) do |bot|
     	when Telegram::Bot::Types::Message
     	  case message.text
     	  when '/start'
-    	    btns = Telegram::Bot::Types::ReplyKeyboardMarkup.new(keyboard: %w[today dream], one_time_keyboard: true)
-    	    bot.api.send_message(chat_id: message.chat.id, text: 'helo', reply_markup: btns)
+    	    bot.api.send_message(chat_id: message.chat.id, text: 'helo')
     	  when '/today'
       	    m = Nokogiri::HTML(URI.open('https://rivendel.ru/today.php?idr=7')).at(".today")
   				useless = %w[//script //a[contains(.,'>>')]  //a[contains(.,'<<')] ins #region_select_switcher]
