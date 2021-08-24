@@ -21,10 +21,11 @@ Telegram::Bot::Client.run(token) do |bot|
   				doc.map { bot.api.send_message(chat_id: message.chat.id, text: _1.gsub("\n    ", '')) }
     	  when '/dream'
       	    m = Nokogiri::HTML(URI.open('https://rivendel.ru/dream_lenta.php?idr=7')).at('.workarea')
-  				m.search('//script').map { _1.remove }
-                                m.search(%w[ins #region_select_switcher]).map { _1.remove }
-                                doc = m.text.split("\n").shift;m.join("\n").squeeze(" ").scan /(.{1,3247})/m
-  			        bot.api.send_message(chat_id: message.chat.id, text: doc)
+            m.search('//script').map { _1.remove }
+            m.search(%w[ins #region_select_switcher]).map { _1.remove }
+            m.text.split("\n").shift
+            doc = m.text.squeeze(" ").scan /(.{1,3247})/m
+            bot.api.send_message(chat_id: message.chat.id, text: doc)
     	  end
     	end
     rescue => e
