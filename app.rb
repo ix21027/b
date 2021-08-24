@@ -22,6 +22,7 @@ Telegram::Bot::Client.run(token) do |bot|
     	  when '/dream'
       	    m = Nokogiri::HTML(URI.open('https://rivendel.ru/dream_lenta.php?idr=7')).at('.workarea')
   				m.search('//script').map { _1.remove }
+                                m.search(%w[ins #region_select_switcher]).map { _1.remove }
   				doc = m.text.scan /.{1,4096}/m
   				doc.map { bot.api.send_message(chat_id: message.chat.id, text: _1.inspect) }
     	  end
