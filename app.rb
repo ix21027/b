@@ -2,7 +2,7 @@ require 'telegram/bot'
 require 'nokogiri'
 require 'open-uri'
 
-token = ARGV[0]
+token = '1896440784:AAFf9SNej12QWZ4gvHbq5ZlvCwkIWIYABE8'
 
 Telegram::Bot::Client.run(token) do |bot|
   bot.listen do |message|
