@@ -23,8 +23,8 @@ Telegram::Bot::Client.run(token) do |bot|
       	    m = Nokogiri::HTML(URI.open('https://rivendel.ru/dream_lenta.php?idr=7')).at('.workarea')
   				m.search('//script').map { _1.remove }
                                 m.search(%w[ins #region_select_switcher]).map { _1.remove }
-  				doc = m.text.scan /.{226,3247}/m
-  			        bot.api.send_message(chat_id: message.chat.id, text: doc.first)
+  				doc = m.text.scan /(.{1,226})(.{1,3000})/m
+  			        bot.api.send_message(chat_id: message.chat.id, text: doc.second)
     	  end
     	end
     rescue => e
