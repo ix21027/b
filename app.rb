@@ -25,7 +25,7 @@ Telegram::Bot::Client.run(token) do |bot|
             m.search(%w[ins #region_select_switcher]).map { _1.remove }
             
             doc = m.text.squeeze(" ").scan /(.{1,3247})/m
-            bot.api.send_message(chat_id: message.chat.id, text: doc)
+            doc.map { bot.api.send_message(chat_id: message.chat.id, text: _1) }
     	  end
     	end
     rescue => e
