@@ -25,6 +25,7 @@ Telegram::Bot::Client.run(token) do |bot|
             m.search(%w[ins #region_select_switcher]).map { _1.remove }        
             doc = m.text.split("\n").uniq.drop(4).join("\n").scan(/(.{1,4096})/m).flatten[0].split("\n                ").shift(6).join.split("\n")[1..-6]
             bot.api.send_message(chat_id: message.chat.id, text: doc[0..5].join("\n"))
+            bot.api.send_message(chat_id: message.chat.id, text: doc[6..-1].join("\n"))
     	  end
     	end
     rescue => e
