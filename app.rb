@@ -30,6 +30,7 @@ Telegram::Bot::Client.run(token) do |bot|
     	end
     rescue => e
       p e
+      bot.api.send_message(chat_id: message.chat.id, text: e.to_s)
     end	
   end
 end
