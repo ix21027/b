@@ -17,13 +17,12 @@ Telegram::Bot::Client.run(token) do |bot|
   				useless = %w[//script //a[contains(.,'>>')]  //a[contains(.,'<<')] ins #region_select_switcher]
   				m.search(*useless).map { _1.remove }
   				m.search('br').map {_1.content="\n"}
-  			        doc = m.text.split("\n").map {_1.strip }.filter {!_1.empty?}.join("\n").squeeze(" ").scan /.{1,4096}/m
+  			        doc = m.text.split("\n").map {_1.strip }.filter {!_1.empty?}[1..-1].join("\n").squeeze(" ").scan /.{1,4096}/m
   				doc.map { bot.api.send_message(chat_id: message.chat.id, text: _1.gsub("\n    ", '')) }
     	  when '/dream'
       	    m = Nokogiri::HTML(URI.open('https://rivendel.ru/dream_lenta.php?idr=7')).at('.workarea')
             m.search('//script').map { _1.remove }
-            m.search(%w[ins #region_select_switcher]).map { _1.remove }
-            
+            m.search(%w[ins #region_select_switcher]).map { _1.remove }        
             doc = m.text.split("\n").uniq.drop(4).join("\n").scan(/(.{1,4096})/m).flatten
             bot.api.send_message(chat_id: message.chat.id, text: doc[0].split("\n                ").shift(6).join.split("\n")[1..-6].join("\n"))
     	  end
