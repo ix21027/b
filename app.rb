@@ -21,9 +21,8 @@ Telegram::Bot::Client.run(token) do |bot|
   	  doc.map { bot.api.send_message(chat_id: message.chat.id, text: _1.gsub("\n    ", '')) }
     	when '/dream'
       	  m = Nokogiri::HTML(URI.open('https://rivendel.ru/dream_lenta.php?idr=7')).at('.workarea')
-          m.search('//script').map { _1.remove }
-          m.search(%w[ins #region_select_switcher]).map { _1.remove }        
-          doc = m.text.split("\n").uniq.drop(4).join("\n").scan(/(.{1,4096})/m).flatten[0].split("\n                ").shift(6).join.split("\n")[1..-6]
+          m.search(%w[ins #region_select_switcher //script]).map { _1.remove }        
+          doc = m.text.split("\n").uniq.drop(4).join("\n").scan(/.{1,4096}/m).flatten[0].split("\n                ").shift(6).join.split("\n")[1..-6]
           bot.api.send_message(chat_id: message.chat.id, text: doc[0..5].map(&:strip).join("\n").gsub(/Значение снов в .{1,4} лунный день/, "")) 
           bot.api.send_message(chat_id: message.chat.id, text: doc[6..-1].map(&:strip).join("\n").gsub(/Значение снов в .{1,4} лунный день/, "\n"))
     	end
